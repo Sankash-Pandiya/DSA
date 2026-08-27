@@ -31,13 +31,11 @@ class Solution {
     }
 
     private boolean isSafe(List<List<String>> board, int i, int j, int n) {
-        // Check Up
         int row = i - 1;
         while(row >= 0) {
             if(board.get(row).get(j).equals("Q")) return false;
             row--;
         }
-        // Check left diagonal
         row = i - 1;
         int col = j - 1;
         while(row >= 0 && col >= 0) {
@@ -45,7 +43,6 @@ class Solution {
             row--;
             col--;
         }
-        // Check right diagonal
         row = i - 1;
         col = j + 1;
         while(row >= 0 && col < n) {
