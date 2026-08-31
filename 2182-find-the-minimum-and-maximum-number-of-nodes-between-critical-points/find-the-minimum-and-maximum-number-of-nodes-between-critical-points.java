@@ -1,32 +1,33 @@
 class Solution {
     public int[] nodesBetweenCriticalPoints(ListNode head) {
-        int[] ans = {-1,-1};
-        ListNode temp = head;
-        int n = 0;
-        int minDist = Integer.MAX_VALUE;
-        while(temp != null) {
-            n++;
-            temp = temp.next;
-        }
-        if(n < 3) return ans;
-        List<Integer> critIdx = new ArrayList<>();
+        int[] ans = {-1, -1};
+        if(head == null || head.next == null || head.next.next == null) return ans;
+
         ListNode prev = head;
-        temp = head;
-        temp = temp.next;
-        for(int i = 1; i < n - 1; i++) {
-            if((temp.val < prev.val && temp.val < temp.next.val) || 
-            (temp.val > prev.val && temp.val > temp.next.val)) {
-                critIdx.add(i);
+        ListNode curr = head.next;
+
+        int idx = 1;
+        int first = -1;
+        int last = -1;
+        int minDist = Integer.MAX_VALUE;
+
+        while(curr.next != null) {
+            if((curr.val > prev.val && curr.val > curr.next.val) ||
+            (curr.val < prev.val && curr.val < curr.next.val)) {
+                if(first == -1) first = idx;
+                else minDist = Math.min(minDist, idx - last);
+                last = idx;
             }
-            prev = temp;
-            temp = temp.next;
-        }
-        if(critIdx.size() < 2) return ans;
-        for(int i = 1; i < critIdx.size(); i++) {
-            minDist = Math.min(minDist, critIdx.get(i) - critIdx.get(i - 1));
-        }
+
+            prev = curr;
+            curr = curr.next;
+            idx++;
+        }  
+
+        if(first == -1 || first == last) return ans;
         ans[0] = minDist;
-        ans[1] = critIdx.get(critIdx.size() - 1) - critIdx.get(0);
+        ans[1] = last - first;
+
         return ans;
     }
 }
