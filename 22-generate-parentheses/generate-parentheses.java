@@ -1,16 +1,16 @@
 class Solution {
     public List<String> generateParenthesis(int n) {
         List<String> res = new ArrayList<>();
-        para(0,0,"",n,res);
+        helper(0,0,"",n,res);
         return res;
     }
-    public void para(int openP, int closeP, String s, int n, List<String> res){
-        //Base Case
-        if(openP == closeP && openP+closeP == 2*n){
+
+    private void helper(int open, int close, String s, int n, List<String> res) {
+        if(open == close && open + close == 2*n) {
             res.add(s);
             return;
-        }                                                
-        if(openP < n) para(openP+1, closeP, s + "(", n, res);
-        if(closeP < openP) para(openP, closeP + 1, s + ")", n, res);
+        }
+        if(open < n) helper(open + 1, close, s + "(", n, res);
+        if(close < open) helper(open, close + 1, s + ")", n, res);
     }
 }
